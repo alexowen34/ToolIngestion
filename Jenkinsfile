@@ -14,7 +14,7 @@ pipeline {
         stage('Pull software from web into shared drive') {
             steps {
                 dir('C:\\Users\\rootadmin\\SHARED DRIVE') {
-                    bat 'URL="' + url + '"; C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe URL'
+                    bat 'URL="' + url + '"; C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe "$URL"'
                 }
             }
         }
