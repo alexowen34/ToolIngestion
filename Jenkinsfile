@@ -15,7 +15,7 @@ pipeline {
             steps {
                 dir('C:\\Users\\rootadmin\\SHARED DRIVE') {
                     bat 'SET URL="'+url+'"'
-                    bat 'C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe %URL%'
+                    bat 'C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe %$URL%'
                 }
             }
         }
