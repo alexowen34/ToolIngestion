@@ -11,10 +11,10 @@ pipeline {
                 echo 'This job will attempt to download the file from the following URL: ' + url
             }
         }
-        stage('Pull software from web using wget') {
+        stage('Pull software from web into shared drive') {
             steps {
                 dir('C:\\Users\\rootadmin\\SHARED DRIVE') {
-                    bat 'C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe ' + url
+                    bat 'URL="' + url + '"; C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe URL'
                 }
             }
         }
