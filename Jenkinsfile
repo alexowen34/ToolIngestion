@@ -13,7 +13,7 @@ pipeline {
                 }
             }
         }
-        stage('Jira: Issue Information') {
+        stage('Jira: Output Issue Information') {
             steps {
                 echo 'This job relates to JIRA issue: ' + JIRA_ISSUE_KEY
                 echo 'Requested by: ' + REPORTER
