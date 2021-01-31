@@ -32,17 +32,26 @@ pipeline {
 
     post {
         success {
-            updateIssueStatus('41', "Jenkins build: " + BUILD_NUMBER + " complete successfully. The tool has been stored in: " + sharedDrivePath)
+            updateIssueStatus('DONE', "Jenkins build: " + BUILD_NUMBER + " complete successfully. The tool has been stored in: " + sharedDrivePath)
         }
         failure {
-            updateIssueStatus('21', 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
+            updateIssueStatus('BLOCKED', 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
         }
     }
 
 }
 
-void updateIssueStatus(String id, String comment) {
-    def transitionInput = [transition: [id: id]]
+void updateIssueStatus(String transition, String comment) {
+    
+    String transitionID = null
+    switch(transition) {
+        case 'DONE': transitionID = '41'
+        break;
+        case 'BLOCKED': transitionID = '21'
+        break;
+    }
+
+    def transitionInput = [transition: [id: transitionID]]
     jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
     jiraAddComment comment: comment, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
 }
