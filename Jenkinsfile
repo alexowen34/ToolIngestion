@@ -46,9 +46,9 @@ void updateIssueStatus(String transition, String comment) {
     String transitionID = null
     switch(transition) {
         case 'DONE': transitionID = '41'
-        break;
+        break
         case 'BLOCKED': transitionID = '21'
-        break;
+        break
     }
 
     def transitionInput = [transition: [id: transitionID]]
