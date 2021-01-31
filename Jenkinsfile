@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage ("Jira: Update Issue Status"){
+        stage ("Jira: Update Issue Status") {
             steps {
                 script {
                     updateIssueStatus('41', "Jenkins build: " + BUILD_NUMBER + " complete successfully. The tool has been stored in: " + sharedDrivePath)                
@@ -37,13 +37,15 @@ pipeline {
         }
     }
 
+    post {
+        failure {
+            updateIssueStatus(21, 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
+        }
+    }
+
 }
 
-post {
-    failure {
-        updateIssueStatus(21, 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
-    }
-}
+
 
 void updateIssueStatus(String id, String comment) {
     def transitionInput = [transition: [id: id]]
