@@ -7,7 +7,7 @@ pipeline {
         stage('Jira Issue Infomation') {
             steps {
                 echo 'This job relates to JIRA issue: ' + JIRA_ISSUE_KEY
-                echo 'Requested by '
+                echo 'Requested by: ' + REPORTER
                 echo 'This job will attempt to download the file from the following URL: ' + url
             }
         }
