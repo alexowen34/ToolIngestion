@@ -9,7 +9,7 @@ pipeline {
         stage('Jira: Notify Issue Build Started') {
             steps {
                 script{
-                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + " has started.", idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
+                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + " has started: " + BUILD_URL, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
                 }
             }
         }
@@ -54,5 +54,5 @@ void updateIssueStatus(String transition, String comment) {
     def transitionInput = [transition: [id: transitionID]]
     jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
     jiraAddComment comment: comment, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
-    
+
 }
