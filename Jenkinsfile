@@ -6,6 +6,13 @@ pipeline {
     agent {label 'Windows'}
 
     stages {
+        stage('Jira: Notify Issue Build Started') {
+            steps {
+                script{
+                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + ", has started.", idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
+                }
+            }
+        }
         stage('Jira: Issue Infomation') {
             steps {
                 echo 'This job relates to JIRA issue: ' + JIRA_ISSUE_KEY
@@ -26,7 +33,7 @@ pipeline {
                 script {
                     def transitionInput = [transition: [id: '41']]
                     jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
-                    jiraAddComment comment: "Process complete successfully, tool has been stored in: " + sharedDrivePath, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
+                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + ", complete successfully, tool has been stored in: " + sharedDrivePath, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
                 }
             }
         }
