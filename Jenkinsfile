@@ -6,7 +6,7 @@ pipeline {
     agent {label 'Windows'}
 
     stages {
-        stage('Jira: Notify Issue Build Started') {
+        stage('Jira: Add "Build Started" Comment to Issue') {
             steps {
                 script{
                     jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + " has started: " + BUILD_URL, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
