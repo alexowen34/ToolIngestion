@@ -9,11 +9,11 @@ pipeline {
         stage('Jira: Notify Issue Build Started') {
             steps {
                 script{
-                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + ", has started.", idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
+                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + " has started.", idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
                 }
             }
         }
-        stage('Jira: Issue Infomation') {
+        stage('Jira: Issue Information') {
             steps {
                 echo 'This job relates to JIRA issue: ' + JIRA_ISSUE_KEY
                 echo 'Requested by: ' + REPORTER
@@ -21,7 +21,7 @@ pipeline {
                 echo 'This job will attempt to download the file from the following URL: ' + URL
             }
         }
-        stage('wget: Pull software from web into shared drive') {
+        stage('Wget: Download Software Into Shared Drive') {
             steps {
                 dir(sharedDrivePath) {
                     bat 'C:\\ProgramData\\chocolatey\\lib\\Wget\\tools\\wget.exe ' + URL
@@ -31,12 +31,16 @@ pipeline {
         stage ("Jira: Update Issue Status"){
             steps {
                 script {
-                    def transitionInput = [transition: [id: '41']]
-                    jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
-                    jiraAddComment comment: "Jenkins build: " + BUILD_NUMBER + ", complete successfully, tool has been stored in: " + sharedDrivePath, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
+                    updateIssueStatus('41', "Jenkins build: " + BUILD_NUMBER + " complete successfully. The tool has been stored in: " + sharedDrivePath)                
                 }
             }
         }
     }
 
+}
+
+void updateIssueStatus(String id, String comment) {
+    def transitionInput = [transition: [id: id]]
+    jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
+    jiraAddComment comment: comment, idOrKey: JIRA_ISSUE_KEY, site: 'Jira'
 }
