@@ -39,6 +39,12 @@ pipeline {
 
 }
 
+post {
+    failure {
+        updateIssueStatus(21, 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
+    }
+}
+
 void updateIssueStatus(String id, String comment) {
     def transitionInput = [transition: [id: id]]
     jiraTransitionIssue idOrKey: JIRA_ISSUE_KEY, input: transitionInput, site: 'Jira'
