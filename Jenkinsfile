@@ -39,7 +39,7 @@ pipeline {
 
     post {
         failure {
-            updateIssueStatus(21, 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
+            updateIssueStatus('21', 'Jenkins build: ' + BUILD_NUMBER + ' has failed. Please see the "Console Output" in Jenkins for more information.')
         }
     }
 
